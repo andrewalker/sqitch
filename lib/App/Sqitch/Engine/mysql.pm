@@ -10,6 +10,7 @@ use Locale::TextDomain qw(App-Sqitch);
 use App::Sqitch::Plan::Change;
 use Path::Class;
 use Mouse;
+use Term::ReadPassword;
 use namespace::autoclean;
 use List::MoreUtils qw(firstidx);
 
@@ -49,7 +50,7 @@ has password => (
     lazy     => 1,
     required => 0,
     default  => sub {
-        shift->sqitch->config->get( key => 'core.mysql.password' );
+        shift->sqitch->config->get( key => 'core.mysql.password' ) || read_password(__ 'Password: ');
     },
 );
 

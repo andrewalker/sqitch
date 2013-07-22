@@ -10,6 +10,7 @@ use App::Sqitch::X qw(hurl);
 use Locale::TextDomain qw(App-Sqitch);
 use App::Sqitch::Plan::Change;
 use List::Util qw(first);
+use Term::ReadPassword;
 use namespace::autoclean;
 
 extends 'App::Sqitch::Engine';
@@ -60,7 +61,7 @@ has password => (
     lazy     => 1,
     required => 0,
     default  => sub {
-        shift->sqitch->config->get( key => 'core.oracle.password' );
+        shift->sqitch->config->get( key => 'core.oracle.password' ) || read_password(__ 'Password: ');
     },
 );
 
